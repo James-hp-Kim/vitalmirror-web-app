@@ -1,0 +1,16 @@
+{
+  "name": "mcd_rppg",
+  "format": "onnx",
+  "filename": "mcd_rppg.onnx",
+  "source_repo": "https://github.com/ksyegorov/mcd_rppg",
+  "dataset": "https://huggingface.co/datasets/kyegorov/mcd_rppg",
+  "notes": [
+    "Export the SCNN 8-ROI model to ONNX.",
+    "Place the final file at models/mcd_rppg.onnx.",
+    "The backend will then prefer MCDRPPGAdapter automatically."
+  ],
+  "candidate_input_shapes": [
+    [1, 8, 120],
+    [1, 120, 8]
+  ]
+}

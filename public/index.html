@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VitalMirror Web App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark">VM</span>
+        <span>VitalMirror</span>
+      </a>
+      <nav aria-label="주요 메뉴">
+        <a href="#scan">Scan</a>
+        <a href="#mobile">Mobile Control</a>
+        <a href="#result">Insights</a>
+        <a href="#pipeline">Pipeline</a>
+      </nav>
+      <a class="nav-cta" href="#scan">Try scan</a>
+    </header>
+
+    <main>
+      <section class="hero" id="scan">
+        <div class="hero-copy">
+          <p class="eyebrow">AI-powered wellness check web app</p>
+          <h1>카메라만으로 30초 컨디션 스캔</h1>
+          <p class="hero-text">
+            VitalMirror는 얼굴 영상에서 표정과 rPPG 스타일 신호를 추출하고, 무드·스트레스 부하·회복 여력을 하나의
+            웰니스 인사이트로 정리합니다.
+          </p>
+          <div class="hero-actions">
+            <button id="heroScanButton" class="primary-button" type="button">
+              <i data-lucide="scan-face"></i>
+              <span>스캔 시작</span>
+            </button>
+            <button id="demoButton" class="secondary-button" type="button">
+              <i data-lucide="play"></i>
+              <span>데모 실행</span>
+            </button>
+          </div>
+          <div class="trust-row" aria-label="제품 특징">
+            <span>100% software MVP</span>
+            <span>30 sec spot check</span>
+            <span>Web + mobile ready</span>
+          </div>
+        </div>
+
+        <section class="product-stage" aria-label="VitalMirror 스캔">
+          <div class="stage-header">
+            <div>
+              <p class="section-label">Live Scan</p>
+              <h2>얼굴을 중앙에 맞추고 측정하세요</h2>
+            </div>
+            <span class="status-pill" id="cameraStatus">카메라 대기 중</span>
+          </div>
+
+          <div class="camera-stage">
+            <video id="camera" autoplay playsinline muted></video>
+            <img id="photoPreview" alt="업로드한 얼굴 사진 미리보기" hidden />
+            <canvas id="snapshotCanvas" width="320" height="180" hidden></canvas>
+            <div class="scan-overlay" aria-hidden="true">
+              <div class="face-guide"></div>
+              <div class="signal-dot dot-a"></div>
+              <div class="signal-dot dot-b"></div>
+              <div class="signal-dot dot-c"></div>
+              <div class="scan-line"></div>
+            </div>
+          </div>
+
+          <div class="scan-toolbar">
+            <button id="scanButton" class="primary-button" type="button">
+              <i data-lucide="scan-face"></i>
+              <span>30초 스캔 시작</span>
+            </button>
+            <input id="photoInput" type="file" accept="image/*" hidden />
+            <button id="photoButton" class="icon-button" type="button" aria-label="사진 업로드" title="사진 업로드">
+              <i data-lucide="image-up"></i>
+            </button>
+          </div>
+
+          <div class="timeline" aria-label="스캔 진행률">
+            <div class="timeline-bar" id="timelineBar"></div>
+          </div>
+          <p id="photoStatus" class="helper-text">사진 업로드 시 표정 기반 분석만 실행됩니다.</p>
+        </section>
+      </section>
+
+      <section class="mobile-control" id="mobile">
+        <div class="section-heading">
+          <p class="section-label">Mobile Control Deck</p>
+          <h2>핸드폰 화면에서 앱이 어떻게 작동하는지 조작하며 확인</h2>
+          <p>
+            실제 휴대폰에서 같은 주소로 접속하면 이 화면이 모바일 웹앱처럼 동작합니다. 데스크톱에서는 오른쪽 폰 화면으로
+            파이프라인 진행 상태를 실시간으로 확인할 수 있습니다.
+          </p>
+        </div>
+
+        <div class="control-grid">
+          <div class="control-panel">
+            <button id="phoneStartButton" class="control-action" type="button">
+              <i data-lucide="smartphone"></i>
+              <span>모바일 스캔 실행</span>
+            </button>
+            <button id="phoneDemoButton" class="control-action subtle" type="button">
+              <i data-lucide="workflow"></i>
+              <span>파이프라인 데모</span>
+            </button>
+            <button id="syncButton" class="control-action subtle" type="button">
+              <i data-lucide="refresh-cw"></i>
+              <span>결과 동기화</span>
+            </button>
+            <div class="operator-note">
+              <strong>Mobile access</strong>
+              <p id="networkHint">휴대폰 테스트는 같은 Wi-Fi에서 LAN 실행 스크립트를 사용하세요.</p>
+            </div>
+          </div>
+
+          <div class="phone-frame" aria-label="모바일 앱 미리보기">
+            <div class="phone-speaker"></div>
+            <div class="phone-screen">
+              <div class="phone-appbar">
+                <span>VitalMirror</span>
+                <i data-lucide="wifi"></i>
+              </div>
+              <div class="phone-scan">
+                <div class="phone-face">
+                  <div class="phone-face-ring"></div>
+                  <div class="phone-wave"></div>
+                </div>
+                <p id="phoneStage">Ready to scan</p>
+                <strong id="phoneScore">--</strong>
+                <span id="phoneState">Camera signal waiting</span>
+              </div>
+              <div class="phone-progress">
+                <div id="phoneProgress"></div>
+              </div>
+              <div class="phone-metrics">
+                <div><span>HR</span><strong id="phoneHr">--</strong></div>
+                <div><span>Stress</span><strong id="phoneStress">--</strong></div>
+                <div><span>Recovery</span><strong id="phoneRecovery">--</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard" id="result">
+        <article class="panel result-panel">
+          <div class="panel-title">
+            <div>
+              <p class="section-label">Health Data Snapshot</p>
+              <h2>현재 인사이트</h2>
+            </div>
+            <span id="confidenceBadge" class="status-pill neutral">Idle</span>
+          </div>
+
+          <div class="score-grid">
+            <div class="score-item">
+              <span>무드</span>
+              <strong id="moodIndex">--</strong>
+            </div>
+            <div class="score-item">
+              <span>스트레스</span>
+              <strong id="stressIndex">--</strong>
+            </div>
+            <div class="score-item">
+              <span>회복</span>
+              <strong id="recoveryIndex">--</strong>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <div><span>HR</span><strong id="hrValue">--</strong><small>bpm</small></div>
+            <div><span>RMSSD</span><strong id="rmssdValue">--</strong><small>ms</small></div>
+            <div><span>SDNN</span><strong id="sdnnValue">--</strong><small>ms</small></div>
+            <div><span>RR</span><strong id="rrValue">--</strong><small>rpm</small></div>
+          </div>
+
+          <p id="disclaimer" class="notice">
+            아직 스캔 전입니다. 밝은 환경에서 얼굴을 중앙에 두고 움직임을 줄이면 더 안정적인 결과를 얻을 수 있습니다.
+          </p>
+        </article>
+
+        <article class="panel coaching-panel">
+          <div class="panel-title">
+            <div>
+              <p class="section-label">AI Coaching</p>
+              <h2>코칭 메시지</h2>
+            </div>
+            <span id="emojiValue" class="emoji-output">--</span>
+          </div>
+
+          <div class="mini-grid">
+            <div><span>Valence</span><strong id="valenceValue">--</strong></div>
+            <div><span>Arousal</span><strong id="arousalValue">--</strong></div>
+          </div>
+          <h3 id="adviceTitle">스캔 후 개인화 메시지가 표시됩니다.</h3>
+          <p id="adviceBody">
+            현재 프로토타입은 OpenCV 기반 신호 추출과 서버 측 fusion layer로 동작하며, 실제 MCD-rPPG 모델을 교체 투입할 수
+            있도록 모듈화되어 있습니다.
+          </p>
+
+          <form class="feedback-block">
+            <label>
+              <span>자가 보고 무드</span>
+              <input id="selfMood" type="range" min="0" max="100" value="50" />
+            </label>
+            <label>
+              <span>자가 보고 불안</span>
+              <input id="selfAnxiety" type="range" min="0" max="100" value="50" />
+            </label>
+            <label>
+              <span>메모</span>
+              <textarea id="notes" rows="3" placeholder="예: 회의 전이라 긴장됨"></textarea>
+            </label>
+            <div class="feedback-actions">
+              <button data-feedback="like" class="secondary-button" type="button" disabled>
+                <i data-lucide="thumbs-up"></i>
+                <span>정확해요</span>
+              </button>
+              <button data-feedback="dislike" class="secondary-button quiet" type="button" disabled>
+                <i data-lucide="thumbs-down"></i>
+                <span>달라요</span>
+              </button>
+            </div>
+          </form>
+          <p id="feedbackStatus" class="helper-text">스캔 후 피드백을 남길 수 있습니다.</p>
+        </article>
+      </section>
+
+      <section id="pipeline" class="pipeline-section">
+        <div class="section-heading">
+          <p class="section-label">How It Works</p>
+          <h2>카메라 캡처부터 코칭까지 하나의 웹앱 흐름</h2>
+        </div>
+        <div class="pipeline-grid">
+          <article>
+            <span class="step-number">1</span>
+            <i data-lucide="camera"></i>
+            <h3>Capture</h3>
+            <p>브라우저 카메라에서 30초 프레임 샘플과 밝기·움직임 메타데이터를 수집합니다.</p>
+          </article>
+          <article>
+            <span class="step-number">2</span>
+            <i data-lucide="activity"></i>
+            <h3>Signal Engine</h3>
+            <p>얼굴 ROI와 green-channel trace를 기반으로 HR, HRV, RR 후보 지표를 계산합니다.</p>
+          </article>
+          <article>
+            <span class="step-number">3</span>
+            <i data-lucide="brain"></i>
+            <h3>Fusion</h3>
+            <p>표정 valence/arousal와 rPPG 품질 지표를 결합해 웰니스 점수로 변환합니다.</p>
+          </article>
+          <article>
+            <span class="step-number">4</span>
+            <i data-lucide="database"></i>
+            <h3>Learning Loop</h3>
+            <p>분석 결과와 사용자 피드백을 저장하고 추후 개인 기준선과 모델 개선에 활용합니다.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="data-section" id="data">
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <p class="section-label">Signal Quality</p>
+              <h2>신호 상태</h2>
+            </div>
+          </div>
+          <dl class="telemetry-list">
+            <div><dt>밝기</dt><dd id="brightnessValue">--</dd></div>
+            <div><dt>움직임</dt><dd id="motionValue">--</dd></div>
+            <div><dt>신호 품질</dt><dd id="signalQualityValue">--</dd></div>
+            <div><dt>rPPG 소스</dt><dd id="rppgSourceValue">--</dd></div>
+          </dl>
+        </article>
+
+        <article class="panel">
+          <div class="panel-title">
+            <div>
+              <p class="section-label">Data Loop</p>
+              <h2>저장 및 내보내기</h2>
+            </div>
+          </div>
+          <dl class="telemetry-list">
+            <div><dt>분석 세션</dt><dd id="analysisCount">0</dd></div>
+            <div><dt>피드백</dt><dd id="feedbackCount">0</dd></div>
+            <div><dt>정확해요</dt><dd id="likeCount">0</dd></div>
+            <div><dt>달라요</dt><dd id="dislikeCount">0</dd></div>
+          </dl>
+          <div class="feedback-actions">
+            <button id="refreshStatsButton" class="secondary-button quiet" type="button">
+              <i data-lucide="refresh-cw"></i>
+              <span>새로고침</span>
+            </button>
+            <button id="exportButton" class="secondary-button" type="button">
+              <i data-lucide="download"></i>
+              <span>CSV 내보내기</span>
+            </button>
+          </div>
+          <p id="exportStatus" class="helper-text">SQLite 저장소 상태를 확인하는 중입니다.</p>
+        </article>
+      </section>
+    </main>
+
+    <script src="/js/app.js" defer></script>
+  </body>
+</html>

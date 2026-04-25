@@ -1,0 +1,15 @@
+.vercel/
+__pycache__/
+*.py[cod]
+*.log
+
+data/
+logs/
+server_stdout.log
+server_stderr.log
+
+.env
+.venv/
+venv/
+
+models/*.onnx

@@ -1,0 +1,7 @@
+data
+logs
+tools
+__pycache__
+*.log
+server_stdout.log
+server_stderr.log
