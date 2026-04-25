@@ -16,10 +16,5 @@
     {
       "handle": "filesystem"
     }
-  ],
-  "functions": {
-    "api/index.py": {
-      "excludeFiles": "{data/**,logs/**,tools/**,__pycache__/**,**/*.pyc,models/**}"
-    }
-  }
+  ]
 }
