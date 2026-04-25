@@ -44,6 +44,13 @@ The project is prepared as:
 
 Vercel runtime storage is ephemeral, so SQLite feedback data on Vercel should be treated as temporary. Use a persistent database before production use.
 
+Recommended no-CLI path:
+
+1. Open https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FJames-hp-Kim%2Fvitalmirror-web-app
+2. Import the GitHub repository.
+3. Keep the default project settings.
+4. Deploy.
+
 Helpful Windows scripts:
 
 ```powershell
