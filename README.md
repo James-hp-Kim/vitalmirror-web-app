@@ -44,6 +44,20 @@ The project is prepared as:
 
 Vercel runtime storage is ephemeral, so SQLite feedback data on Vercel should be treated as temporary. Use a persistent database before production use.
 
+Helpful Windows scripts:
+
+```powershell
+.\publish_github.cmd
+.\deploy_vercel.cmd
+```
+
+If authentication is missing:
+
+```powershell
+gh auth login --hostname github.com --git-protocol https --web --scopes repo
+npx vercel@33 login
+```
+
 ## Important Notes
 
 - Camera access requires `localhost` or HTTPS.
